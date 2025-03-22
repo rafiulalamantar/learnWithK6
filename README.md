@@ -19,7 +19,7 @@ To use this framework, ensure you have the following installed on your machine:
 
 ### Clone the Repository
 ```sh
-git clone https://github.com/farhanlabib/k6-performance-testing-framework.git
+git@github.com:rafiulalamantar/learnWithK6.git
 cd k6-performance-testing-framework
 npm install
 ```

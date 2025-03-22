@@ -63,47 +63,41 @@ project-root/
 ## Writing Test Scripts
 The test scripts are JavaScript files that use the k6 library. Each test imports the `http` module and `check` function from k6, defines the test stages, and makes API requests with assertions.
 
-### Sample Test Script (`tests/sample.js`)
+### Sample Test Script (`pages/basePage.js`)
 ```javascript
-import http from 'k6/http';
-import { check } from 'k6';
-
-export let options = {
-    stages: [
-        { duration: '30s', target: 50 },
-        { duration: '1m', target: 100 },
-        { duration: '30s', target: 0 }
-    ]
-};
-
-export default function () {
-    let res = http.post('https://api.example.com/login', JSON.stringify({ username: 'user', password: 'pass' }), {
-        headers: { 'Content-Type': 'application/json' }
-    });
-
-    check(res, {
-        'response code was 200': (r) => r.status === 200
-    });
-}
+export class BasePage {
+    constructor(page) {
+      this.page = page;
+      this.loginUrl = 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login';  // Define URL in BasePage class
+    }
+  
+    // Navigate method will use the URL defined in the class
+    async navigate() {
+      console.log(`Navigating to: ${this.loginUrl}`);  // Log the URL for debugging purposes
+      await this.page.goto(this.loginUrl);
+    }
+  
+    async login(username, password) {
+      await this.page.fill('input[name="username"]', username);
+      await this.page.fill('input[name="password"]', password);
+      await this.page.click("button[type='submit']");
+      await this.page.waitForLoadState('networkidle');
+    }
+  }
 ```
 
 ## Running Tests
 
 ### Basic Test Execution
 ```sh
-npm test specs/sample.js
+k6 run \tests\basePage.js
+k6 run \tests\multiple-scenario.js
 ```
 This command runs the test and displays the results in the console.
 
-### Saving Test Results to CSV
-```sh
-npm test -- --log-format raw specs/sample.js --console-output=./test.csv
-```
-This command runs the test and saves detailed logs to a CSV file.
-
 ## Customization
 You can modify the framework to suit your needs by:
-- Changing `k6-config/options.js` for different test scenarios
+- Changing `k6-data/options.js` for different data
 - Editing or adding new test scripts in the `tests/` folder
 - Updating `pages/` to implement more structured API interactions
 

@@ -48,13 +48,6 @@ project-root/
 │   │── multiple_scenario_report.html
 │   │── employee_info_update_report.html
 │
-│── utils/
-│   │── helper.js
-│   │── config.js
-│
-│── k6-config/
-│   │── options.js
-│
 │── .gitignore
 │── package.json
 │── README.md
@@ -97,9 +90,9 @@ This command runs the test and displays the results in the console.
 
 ## Customization
 You can modify the framework to suit your needs by:
-- Changing `k6-data/options.js` for different data
+- Changing `k6-data/data.js` for different data
 - Editing or adding new test scripts in the `tests/` folder
-- Updating `pages/` to implement more structured API interactions
+- Updating `pages/` to implement more structured API or Borwser Page interactions
 
 ## Reporting
 Test execution reports are stored in the `reports/` directory and can be reviewed to analyze test results.
